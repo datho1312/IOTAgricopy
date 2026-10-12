@@ -56,7 +56,10 @@ class HomeScreen extends ConsumerWidget {
         slivers: [
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 24.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,12 +72,37 @@ class HomeScreen extends ConsumerWidget {
                         children: [
                           Text(
                             _greeting(),
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.secondaryText),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: const Color(0xFFF7FFF9),
+                                  fontWeight: FontWeight.w600,
+                                  shadows: const [
+                                    Shadow(
+                                      color: Color(0x990D2D1D),
+                                      blurRadius: 5,
+                                      offset: Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             'Vườn của ${user.fullName.split(' ')[0]}',
-                            style: AppText.heading(context, fontSize: 24),
+                            style: AppText.heading(context, fontSize: 24)
+                                .copyWith(
+                                  color: const Color(0xFF102F20),
+                                  shadows: const [
+                                    Shadow(
+                                      color: Color(0xB3FFFFFF),
+                                      blurRadius: 8,
+                                    ),
+                                    Shadow(
+                                      color: Color(0x660A2417),
+                                      blurRadius: 2,
+                                      offset: Offset(0, 1),
+                                    ),
+                                  ],
+                                ),
                           ),
                         ],
                       ),
@@ -87,12 +115,18 @@ class HomeScreen extends ConsumerWidget {
                           height: 48,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            gradient: LinearGradient(colors: [AppColors.sage, AppColors.forestGreen]),
+                            gradient: LinearGradient(
+                              colors: [AppColors.sage, AppColors.forestGreen],
+                            ),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             user.fullName[0].toUpperCase(),
-                            style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -102,8 +136,15 @@ class HomeScreen extends ConsumerWidget {
                   // Hero card – loading skeleton while sensor data resolves
                   sensorAsync.when(
                     data: (sensor) {
-                      final health = _healthPercent(sensor, activePlant.plant).round();
-                      return _HeroCard(activePlant: activePlant, sensor: sensor, healthPercent: health);
+                      final health = _healthPercent(
+                        sensor,
+                        activePlant.plant,
+                      ).round();
+                      return _HeroCard(
+                        activePlant: activePlant,
+                        sensor: sensor,
+                        healthPercent: health,
+                      );
                     },
                     loading: () => Skeleton(height: 180, borderRadius: 28),
                     error: (_, __) => const Text('Lỗi tải cảm biến'),
@@ -111,7 +152,8 @@ class HomeScreen extends ConsumerWidget {
                   const SizedBox(height: 24),
                   // Sensor card
                   sensorAsync.when(
-                    data: (sensor) => _SensorCard(activePlant: activePlant, sensor: sensor),
+                    data: (sensor) =>
+                        _SensorCard(activePlant: activePlant, sensor: sensor),
                     loading: () => Skeleton(height: 140, borderRadius: 24),
                     error: (_, __) => const Text('Lỗi cảm biến'),
                   ),
@@ -134,7 +176,11 @@ class HomeScreen extends ConsumerWidget {
 // -----------------------------------------------------------------------------
 // Hero card widget – shows plant progress & health.
 class _HeroCard extends StatelessWidget {
-  const _HeroCard({required this.activePlant, required this.sensor, required this.healthPercent});
+  const _HeroCard({
+    required this.activePlant,
+    required this.sensor,
+    required this.healthPercent,
+  });
 
   final ActivePlant activePlant;
   final SensorReading sensor;
@@ -146,9 +192,13 @@ class _HeroCard extends StatelessWidget {
     final progress = (activePlant.currentDay + 1) / (plant.durationWeeks * 7);
     return Container(
       decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: [AppColors.sage, AppColors.forestGreen]),
+        gradient: const LinearGradient(
+          colors: [AppColors.sage, AppColors.forestGreen],
+        ),
         borderRadius: BorderRadius.circular(28),
-        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 2))],
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 2)),
+        ],
       ),
       padding: const EdgeInsets.all(20),
       child: Stack(
@@ -159,8 +209,22 @@ class _HeroCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('$healthPercent%', style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)),
-                const Text('KHỎE MẠNH', style: TextStyle(color: Colors.white70, fontSize: 12, letterSpacing: 1.5)),
+                Text(
+                  '$healthPercent%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Text(
+                  'KHỎE MẠNH',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    letterSpacing: 1.5,
+                  ),
+                ),
               ],
             ),
           ),
@@ -169,14 +233,24 @@ class _HeroCard extends StatelessWidget {
             children: [
               // Translucent chip
               Container(
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
                     Icon(Icons.auto_awesome, color: Colors.white70, size: 16),
                     SizedBox(width: 4),
-                    Text('ĐANG TRỒNG', style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600)),
+                    Text(
+                      'ĐANG TRỒNG',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -186,18 +260,29 @@ class _HeroCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.eco, color: Colors.white70, size: 20),
                   const SizedBox(width: 8),
-                  Text(plant.name, style: const TextStyle(color: Colors.white, fontSize: 28, fontFamily: 'Fraunces', fontWeight: FontWeight.w600)),
+                  Text(
+                    plant.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontFamily: 'Fraunces',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 4),
-              Text('${plant.variety} · Ngày ${activePlant.currentDay + 1} / ${plant.durationWeeks * 7}', style: const TextStyle(color: Colors.white70, fontSize: 14)),
+              Text(
+                '${plant.variety} · Ngày ${activePlant.currentDay + 1} / ${plant.durationWeeks * 7}',
+                style: const TextStyle(color: Colors.white70, fontSize: 14),
+              ),
               const SizedBox(height: 16),
               // Progress bar
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: LinearProgressIndicator(
                   value: progress,
-                  backgroundColor: Colors.white.withOpacity(0.2),
+                  backgroundColor: Colors.white.withValues(alpha: 0.2),
                   valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
                   minHeight: 8,
                 ),
@@ -206,9 +291,18 @@ class _HeroCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Text('Nảy mầm', style: TextStyle(color: Colors.white70, fontSize: 12)),
-                  Text('Sinh trưởng', style: TextStyle(color: Colors.white70, fontSize: 12)),
-                  Text('Thu hoạch', style: TextStyle(color: Colors.white70, fontSize: 12)),
+                  Text(
+                    'Nảy mầm',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                  Text(
+                    'Sinh trưởng',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                  Text(
+                    'Thu hoạch',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
                 ],
               ),
             ],
@@ -240,8 +334,14 @@ class _SensorCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Cảm biến Trực tiếp', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-                const StatusPill(label: '● Đã đồng bộ', color: AppColors.primaryText),
+                const Text(
+                  'Cảm biến Trực tiếp',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                const StatusPill(
+                  label: '● Đã đồng bộ',
+                  color: AppColors.primaryText,
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -301,7 +401,13 @@ class _CareScheduleCard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Lịch chăm sóc ${plant.name}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                Text(
+                  'Lịch chăm sóc ${plant.name}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 StatusPill(
                   label: isSmart ? 'Tự động tối ưu' : 'Đã tạm dừng',
                   color: isSmart ? AppColors.forestGreen : AppColors.alertRed,
@@ -309,9 +415,20 @@ class _CareScheduleCard extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 12),
-            InfoRow(label: 'CHU KỲ TƯỚI', value: '${plant.pumpMinutes} phút mỗi ${plant.pumpEveryMinutes} phút'),
-            InfoRow(label: 'CHU KỲ DINH DƯỠNG', value: '${plant.nutrientMl}ml mỗi ${plant.nutrientEveryDays} ngày'),
-            InfoRow(label: 'NHIỆT ĐỘ LÝ TƯỞNG', value: '${plant.tempMin.toInt()}–${plant.tempMax.toInt()}°C'),
+            InfoRow(
+              label: 'CHU KỲ TƯỚI',
+              value:
+                  '${plant.pumpMinutes} phút mỗi ${plant.pumpEveryMinutes} phút',
+            ),
+            InfoRow(
+              label: 'CHU KỲ DINH DƯỠNG',
+              value:
+                  '${plant.nutrientMl}ml mỗi ${plant.nutrientEveryDays} ngày',
+            ),
+            InfoRow(
+              label: 'NHIỆT ĐỘ LÝ TƯỞNG',
+              value: '${plant.tempMin.toInt()}–${plant.tempMax.toInt()}°C',
+            ),
           ],
         ),
       ),
@@ -339,43 +456,51 @@ class _AlertsCard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Cảnh Báo / Thông Báo', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-                Text('\${alerts.length} đang hoạt động', style: const TextStyle(color: Colors.grey)),
+                const Text(
+                  'Cảnh Báo / Thông Báo',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  '\${alerts.length} đang hoạt động',
+                  style: const TextStyle(color: AppColors.secondaryText),
+                ),
               ],
             ),
             const SizedBox(height: 12),
             if (alerts.isEmpty)
               const Center(child: Text('Mọi thứ đều ổn 🌿'))
             else
-              ...alerts.map((a) => AlertRow(
-                    alert: a,
-                    onResolve: () async {
-                      final confirmed = await showModalBottomSheet<bool>(
-                        context: context,
-                        builder: (_) => Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text('Xác nhận xử lý "${a.title}"?'),
-                              const SizedBox(height: 12),
-                              ElevatedButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                child: const Text('Xác nhận'),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: const Text('Hủy'),
-                              ),
-                            ],
-                          ),
+              ...alerts.map(
+                (a) => AlertRow(
+                  alert: a,
+                  onResolve: () async {
+                    final confirmed = await showModalBottomSheet<bool>(
+                      context: context,
+                      builder: (_) => Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('Xác nhận xử lý "${a.title}"?'),
+                            const SizedBox(height: 12),
+                            ElevatedButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: const Text('Xác nhận'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text('Hủy'),
+                            ),
+                          ],
                         ),
-                      );
-                      if (confirmed == true) {
-                        // In a real app we would update the sensor values; omitted here.
-                      }
-                    },
-                  )),
+                      ),
+                    );
+                    if (confirmed == true) {
+                      // In a real app we would update the sensor values; omitted here.
+                    }
+                  },
+                ),
+              ),
           ],
         ),
       ),
@@ -400,14 +525,31 @@ class AlertRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
-          CircleAvatar(radius: 12, backgroundColor: bg, child: const Icon(Icons.notifications, size: 16, color: Colors.black)),
+          CircleAvatar(
+            radius: 12,
+            backgroundColor: bg,
+            child: const Icon(
+              Icons.notifications,
+              size: 16,
+              color: Colors.black,
+            ),
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(alert.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(alert.message, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                Text(
+                  alert.title,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  alert.message,
+                  style: const TextStyle(
+                    color: AppColors.secondaryText,
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ),
           ),
@@ -416,9 +558,14 @@ class AlertRow extends StatelessWidget {
             onPressed: onResolve,
             style: OutlinedButton.styleFrom(
               backgroundColor: pill,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
-            child: const Text('Xử lý ngay', style: TextStyle(color: Colors.white)),
+            child: const Text(
+              'Xử lý ngay',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

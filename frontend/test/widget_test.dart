@@ -636,6 +636,13 @@ void main() {
   testWidgets('manual mode pauses schedules and auto mode restores them', (
     WidgetTester tester,
   ) async {
+    tester.view.physicalSize = const Size(1200, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
     final api = _DetailApiService(includeSchedule: true);
     final device = Device(
       id: 'device-1',

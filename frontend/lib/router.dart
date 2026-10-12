@@ -9,10 +9,6 @@ import 'screens/home_screen.dart';
 import 'screens/plant_picker_screen.dart';
 import 'screens/control_center_screen.dart';
 import 'screens/more_screen.dart';
-import 'screens/alerts_screen.dart';
-import 'screens/settings_screen.dart';
-import 'screens/harvest_screen.dart';
-import 'screens/help_screen.dart';
 import 'providers/auth_controller.dart';
 import 'core/widgets/floating_pill_nav_bar.dart';
 
@@ -29,19 +25,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
-      GoRoute(
-        path: '/',
-        redirect: (context, state) => '/auth',
-      ),
-      GoRoute(
-        path: '/auth',
-        builder: (context, state) => const AuthScreen(),
-      ),
+      GoRoute(path: '/', redirect: (context, state) => '/auth'),
+      GoRoute(path: '/auth', builder: (context, state) => const AuthScreen()),
       // Shell route that holds the bottom navigation and preserves tab state.
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: Colors.transparent,
             body: navigationShell,
             bottomNavigationBar: FloatingPillNavBar(
               currentIndex: navigationShell.currentIndex,
@@ -89,6 +79,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
     ],
-    errorBuilder: (context, state) => Scaffold(body: Center(child: Text(state.error.toString()))),
+    errorBuilder: (context, state) =>
+        Scaffold(body: Center(child: Text(state.error.toString()))),
   );
 });

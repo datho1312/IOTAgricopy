@@ -55,6 +55,7 @@ class _CupertinoPumpSchedulesScreenState
       final schedulesData = await _apiService.getPumpSchedules(
         widget.device.id,
       );
+      if (!mounted) return;
       setState(() {
         _schedules = schedulesData
             .map((data) => PumpSchedule.fromJson(data))
@@ -62,6 +63,7 @@ class _CupertinoPumpSchedulesScreenState
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _errorMessage = e.toString();
         _isLoading = false;
@@ -382,6 +384,7 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
   bool _isSaving = false;
   String? _errorMessage;
   bool _hasUnsavedChanges = false;
+  bool _isDiscardingChanges = false;
 
   @override
   void initState() {
@@ -564,8 +567,15 @@ class _AddScheduleDialogState extends State<AddScheduleDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return PopScope<Object?>(
+      canPop: _isDiscardingChanges || !_hasUnsavedChanges,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || _isDiscardingChanges || !_hasUnsavedChanges) return;
+        final shouldDiscard = await _onWillPop();
+        if (!shouldDiscard || !context.mounted) return;
+        setState(() => _isDiscardingChanges = true);
+        Navigator.of(context).pop();
+      },
       child: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: const Text('Thêm lịch trình'),

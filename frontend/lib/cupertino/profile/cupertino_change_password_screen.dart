@@ -198,7 +198,7 @@ class _CupertinoChangePasswordScreenState
               ),
               suffix: CupertinoButton(
                 padding: const EdgeInsets.only(right: 12),
-                minSize: 0,
+                minimumSize: Size.zero,
                 onPressed: () => setState(() => _obscureCurrent = !_obscureCurrent),
                 child: Icon(
                   _obscureCurrent ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
@@ -228,7 +228,7 @@ class _CupertinoChangePasswordScreenState
               ),
               suffix: CupertinoButton(
                 padding: const EdgeInsets.only(right: 12),
-                minSize: 0,
+                minimumSize: Size.zero,
                 onPressed: () => setState(() => _obscureNew = !_obscureNew),
                 child: Icon(
                   _obscureNew ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
@@ -260,7 +260,7 @@ class _CupertinoChangePasswordScreenState
               ),
               suffix: CupertinoButton(
                 padding: const EdgeInsets.only(right: 12),
-                minSize: 0,
+                minimumSize: Size.zero,
                 onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
                 child: Icon(
                   _obscureConfirm ? CupertinoIcons.eye_slash : CupertinoIcons.eye,

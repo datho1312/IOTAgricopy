@@ -15,7 +15,12 @@ class HarvestRecord {
   final DateTime harvestDate;
   final String yield; // e.g., "2 kg"
 
-  const HarvestRecord({required this.plantName, required this.startDate, required this.harvestDate, required this.yield});
+  const HarvestRecord({
+    required this.plantName,
+    required this.startDate,
+    required this.harvestDate,
+    required this.yield,
+  });
 }
 
 /// Mock harvest data.
@@ -44,9 +49,12 @@ class HarvestScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
       ),
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
@@ -74,7 +82,9 @@ class HarvestScreen extends ConsumerWidget {
             return ListTile(
               leading: const Icon(Icons.eco, color: AppColors.mint),
               title: Text('${h.plantName} – ${h.yield}'),
-              subtitle: Text('Bắt đầu: ${h.startDate.day}/${h.startDate.month}/${h.startDate.year}\nThu hoạch: ${h.harvestDate.day}/${h.harvestDate.month}/${h.harvestDate.year}'),
+              subtitle: Text(
+                'Bắt đầu: ${h.startDate.day}/${h.startDate.month}/${h.startDate.year}\nThu hoạch: ${h.harvestDate.day}/${h.harvestDate.month}/${h.harvestDate.year}',
+              ),
             );
           },
         ),

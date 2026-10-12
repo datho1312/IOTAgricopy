@@ -257,9 +257,10 @@ class _CupertinoDeviceDetailScreenState
     final lowWaterThreshold =
         (_alertSettings['lowWaterLevelPercent'] as num?)?.toDouble() ?? 30;
     final isStartingPump = !_isPumpRunning;
+    final waterLevel = latestReading?.waterLevel;
     if (isStartingPump &&
-        latestReading != null &&
-        latestReading.waterLevel < lowWaterThreshold) {
+        waterLevel != null &&
+        waterLevel < lowWaterThreshold) {
       _showMessage('Không thể bật bơm khi mực nước đang thấp.');
       return;
     }

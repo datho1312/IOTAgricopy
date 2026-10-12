@@ -5,8 +5,12 @@ import 'app_colors.dart';
 
 class AppText {
   // Serif headings (Fraunces or DM Serif Display)
-  static TextStyle heading(BuildContext context, {FontWeight fontWeight = FontWeight.w600, double fontSize = 24}) {
-    return GoogleFonts.dmSerifDisplay(
+  static TextStyle heading(
+    BuildContext context, {
+    FontWeight fontWeight = FontWeight.w600,
+    double fontSize = 24,
+  }) {
+    return GoogleFonts.inter(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: AppColors.primaryText,
@@ -14,8 +18,12 @@ class AppText {
   }
 
   // Body text – Plus Jakarta Sans
-  static TextStyle body(BuildContext context, {FontWeight fontWeight = FontWeight.w400, double fontSize = 14}) {
-    return GoogleFonts.plusJakartaSans(
+  static TextStyle body(
+    BuildContext context, {
+    FontWeight fontWeight = FontWeight.w400,
+    double fontSize = 14,
+  }) {
+    return GoogleFonts.inter(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: AppColors.primaryText,
@@ -23,8 +31,12 @@ class AppText {
   }
 
   // Small caps label (all caps, letter spacing)
-  static TextStyle label(BuildContext context, {double fontSize = 12, FontWeight fontWeight = FontWeight.w500}) {
-    return GoogleFonts.plusJakartaSans(
+  static TextStyle label(
+    BuildContext context, {
+    double fontSize = 12,
+    FontWeight fontWeight = FontWeight.w500,
+  }) {
+    return GoogleFonts.inter(
       fontSize: fontSize,
       fontWeight: fontWeight,
       letterSpacing: 1.2,

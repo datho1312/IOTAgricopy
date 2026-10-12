@@ -5,6 +5,7 @@ import 'package:iotagri_app/cupertino/devices/cupertino_device_detail_screen.dar
 import 'package:iotagri_app/models/device.dart';
 import 'package:iotagri_app/models/device_alert.dart';
 import 'package:iotagri_app/models/device_overview.dart';
+import 'package:iotagri_app/models/pump_schedule.dart';
 import 'package:iotagri_app/models/sensor_reading.dart';
 import 'package:iotagri_app/services/api_service.dart';
 
@@ -118,6 +119,13 @@ class _FakeVariantsApiService extends ApiService {
         'highTemperatureC': 32.0,
         'lowWaterLevelPercent': 25.0,
       };
+
+  @override
+  Future<Map<String, dynamic>> updatePumpSchedule(
+    String deviceId,
+    PumpSchedule schedule, {
+    required bool isEnabled,
+  }) async => {...schedule.toJson(), 'isEnabled': isEnabled};
 }
 
 void main() {

@@ -16,6 +16,15 @@ class AerogreenApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Aerogreen',
       theme: AppTheme.lightTheme,
+      builder: (context, child) => DecoratedBox(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/aerogreen_foliage_background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: child ?? const SizedBox.shrink(),
+      ),
       routerConfig: router,
     );
   }

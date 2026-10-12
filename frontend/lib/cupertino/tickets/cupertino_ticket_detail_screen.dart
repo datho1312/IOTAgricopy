@@ -371,7 +371,7 @@ class _CupertinoTicketDetailScreenState
             const SizedBox(width: 8),
             CupertinoButton(
               padding: EdgeInsets.zero,
-              minSize: 40,
+              minimumSize: const Size(40, 40),
               onPressed: _isSending ? null : _sendReply,
               child: _isSending
                   ? const CupertinoActivityIndicator(radius: 10)

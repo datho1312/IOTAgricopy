@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -99,7 +100,31 @@ class HistoryExportService {
     required List<HistorySample> samples,
     required List<PumpHistoryEvent> pumpEvents,
   }) async {
-    final document = pw.Document();
+    final regularFont = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/Roboto-Regular.ttf'),
+    );
+    final boldFont = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/Roboto-Bold.ttf'),
+    );
+    final document = pw.Document(
+      theme: pw.ThemeData.withFont(base: regularFont, bold: boldFont),
+    );
+    final titleStyle = pw.TextStyle(
+      font: boldFont,
+      fontSize: 20,
+      fontWeight: pw.FontWeight.bold,
+    );
+    final headingStyle = pw.TextStyle(
+      font: boldFont,
+      fontWeight: pw.FontWeight.bold,
+    );
+    final bodyStyle = pw.TextStyle(font: regularFont, fontSize: 14);
+    final tableHeaderStyle = pw.TextStyle(
+      font: boldFont,
+      fontSize: 8,
+      fontWeight: pw.FontWeight.bold,
+    );
+    final tableCellStyle = pw.TextStyle(font: regularFont, fontSize: 8);
     final date = DateFormat('dd/MM/yyyy HH:mm');
     final orderedSensors = HistorySensor.values
         .where(sensors.contains)
@@ -110,22 +135,25 @@ class HistoryExportService {
         margin: const pw.EdgeInsets.all(28),
         build: (_) => [
           pw.Text(
-            'Aerogreen sensor history',
-            style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+            'Lịch sử cảm biến Aerogreen',
+            style: titleStyle,
           ),
           pw.SizedBox(height: 6),
           pw.Text(
-            _toAscii(deviceName),
-            style: const pw.TextStyle(fontSize: 14),
+            deviceName,
+            style: bodyStyle,
           ),
-          pw.Text('${date.format(window.from)} - ${date.format(window.to)}'),
+          pw.Text(
+            '${date.format(window.from)} - ${date.format(window.to)}',
+            style: bodyStyle,
+          ),
           pw.SizedBox(height: 16),
           pw.TableHelper.fromTextArray(
             headers: [
               'Time',
               ...orderedSensors.map(
                 (sensor) =>
-                    '${_toAscii(sensor.label)} ${_toAscii(sensor.unit)}',
+                    '${sensor.label} ${sensor.unit}',
               ),
             ],
             data: [
@@ -138,19 +166,19 @@ class HistoryExportService {
                   ),
                 ],
             ],
-            headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-            cellStyle: const pw.TextStyle(fontSize: 8),
+            headerStyle: tableHeaderStyle,
+            cellStyle: tableCellStyle,
           ),
           if (pumpEvents.isNotEmpty) ...[
             pw.SizedBox(height: 18),
             pw.Text(
-              'Pump events',
-              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              'Sự kiện bơm',
+              style: headingStyle,
             ),
             for (final event in pumpEvents)
               pw.Text(
-                '${date.format(event.at)} - ${event.isOn ? 'ON' : 'OFF'} (${_toAscii(event.status)})',
-                style: const pw.TextStyle(fontSize: 9),
+                '${date.format(event.at)} - ${event.isOn ? 'ON' : 'OFF'} (${event.status})',
+                style: pw.TextStyle(font: regularFont, fontSize: 9),
               ),
           ],
         ],

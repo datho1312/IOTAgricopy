@@ -6,6 +6,8 @@ import 'package:iotagri_app/models/sensor_reading.dart';
 import 'package:iotagri_app/services/history_export_service.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   final samples = [
     HistorySample(
       recordedAt: DateTime.utc(2026, 10, 8, 8),
@@ -72,7 +74,7 @@ void main() {
   test('generates a PDF document', () async {
     final file = await const HistoryExportService().generate(
       format: HistoryExportFormat.pdf,
-      deviceName: 'Tower 1',
+      deviceName: 'Tháp 1',
       window: HistoryWindow(
         from: DateTime.utc(2026, 10, 8),
         to: DateTime.utc(2026, 10, 9),
@@ -84,5 +86,6 @@ void main() {
 
     expect(file.mimeType, 'application/pdf');
     expect(ascii.decode(file.bytes.take(4).toList()), '%PDF');
+    expect(file.bytes, containsAllInOrder('Roboto'.codeUnits));
   });
 }
